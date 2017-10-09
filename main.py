@@ -8,8 +8,17 @@ app.config['DEBUG'] = True
 
 @app.route("/")
 def index():
-    something = 5
-    return render_template('home.html')
+    username = request.args.get('username')
+    email = request.args.get('email')
+    error1 = request.args.get('error1')
+    error2 = request.args.get('error2')
+    error3 = request.args.get('error3')
+    error4 = request.args.get('error4')
+    if username == None:
+        return render_template('home.html')
+    else:
+        return render_template('home.html', username=username, email=email, error1=error1, error2=error2, error3=error3, error4=error4)
+
 
 @app.route("/welcome", methods=['POST'])
 def welcome():
@@ -63,10 +72,14 @@ def welcome():
             emailCheck = True
     if validEmail == False:
         error4 = emailError
+    print(error1)
+    print(error2)
+    print(error3)
+    print(error4)
     if error1 == '' and error2 == '' and error3 == '' and error4 == '':   
         return render_template('welcome.html', username=user)
     else:
-        return render_template('home.html', username=user, email=email, error1=error1, error2=error2, error3=error3, error4=error4)
+        return redirect('/?' + 'username=' + user + '&email=' + email + '&error1=' + error1 + '&error2=' + error2 + '&error3=' + error3 + '&error4=' + error4)
 
 app.run()
 
