@@ -29,7 +29,7 @@ def welcome():
     user = request.form['username']
     password = request.form['password']
     verify = request.form['verify']
-    email = request.form['email']
+    email = str(request.form['email'])
     validEmail = True
     emailCheck = False
     andCount = 0
@@ -68,7 +68,12 @@ def welcome():
                     if periodCount > 1:
                         validEmail = False
                         emailError = 'Too many periods'
-                        
+            if periodCount == 0:
+                validEmail = False
+                emailError = 'No periods detected'
+            if andCount == 0:
+                validEmail = False
+                emailError = 'No @ detected'            
             emailCheck = True
     if validEmail == False:
         error4 = emailError
